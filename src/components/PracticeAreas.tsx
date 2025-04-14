@@ -55,7 +55,7 @@ function PracticeAreas() {
     <section id="practice-areas" className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">Practice Areas</h2>
+          <h2 className="text-3xl font-bold text-blue-600 sm:text-4xl">Practice Areas</h2>
           <p className="mt-4 text-xl text-gray-600">Comprehensive legal expertise for your business needs</p>
         </div>
         
@@ -67,7 +67,7 @@ function PracticeAreas() {
                 key={index}
                 className="relative group bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300"
               >
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl opacity-0 group-hover:opacity-100 transition duration-300 blur"></div>
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-200 to-indigo-200 rounded-xl opacity-0 group-hover:opacity-100 transition duration-300 blur"></div>
                 <div className="relative bg-white p-6 rounded-xl">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
                     <IconComponent className="w-6 h-6 text-blue-600" />

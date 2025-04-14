@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Search, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 interface ContactFormData {
   name: string;
   email: string;
   phone: string;
-  address: string;
+  message: string;
 }
 
 export default function Trademark() {
@@ -16,34 +15,63 @@ export default function Trademark() {
     name: '',
     email: '',
     phone: '',
-    address: ''
+    message: '',
   });
+  const [resultMsg, setResultMsg] = useState('');
+  const [resultColor, setResultColor] = useState('text-gray-500');
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setShowContactForm(true);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setShowContactForm(false);
-    setSearchQuery('');
-    setFormData({ name: '', email: '', phone: '', address: '' });
+
+    const formPayload = {
+      access_key: '5ea7a290-2c81-4528-8152-90d734ee0f87',
+      subject: 'New Submission from your Website',
+      botcheck: '',
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      message: formData.message,
+    };
+
+    setResultMsg('Please wait...');
+    setResultColor('text-gray-500');
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(formPayload),
+      });
+
+      const json = await res.json();
+
+      if (res.status === 200) {
+        setResultMsg(json.message);
+        setResultColor('text-green-500');
+        setFormData({ name: '', email: '', phone: '', message: '' });
+        setTimeout(() => setShowContactForm(false), 3000);
+      } else {
+        setResultMsg(json.message || 'Something went wrong!');
+        setResultColor('text-red-500');
+      }
+    } catch (error) {
+      console.error(error);
+      setResultMsg('Something went wrong!');
+      setResultColor('text-red-500');
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
-
-        {/* Go to Home Link */}
-        <Link
-          to="/"
-          className="text-blue-600 underline mb-6 inline-block text-sm hover:text-blue-800"
-        >
-          &larr; Back to Home
-        </Link>
-
         <h1 className="text-3xl font-bold text-center mb-8">Trademark Search</h1>
 
         {/* Search Form */}
@@ -115,11 +143,11 @@ export default function Trademark() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Address</label>
+                  <label className="block text-sm font-medium text-gray-700">Message</label>
                   <textarea
                     required
-                    value={formData.address}
-                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
                     rows={3}
                   />
@@ -129,9 +157,14 @@ export default function Trademark() {
                   type="submit"
                   className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
                 >
-                  Submit
+                  Send Message
                 </button>
               </form>
+              {resultMsg && (
+                <p className={`mt-4 text-center text-sm ${resultColor}`}>
+                  {resultMsg}
+                </p>
+              )}
             </div>
           </div>
         )}
