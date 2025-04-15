@@ -11,7 +11,7 @@ interface PracticeArea {
 const navItems = [
   { label: "Home", to: "/" },
   { label: "About", to: "/About" },
-   {label:"service", to:"/practiceAreas"},
+  { label: "Service", to: "/practiceAreas" },
   { label: "Blog", to: "/post-blog" },
   { label: "Contact", to: "/contact" },
 ];
@@ -29,7 +29,9 @@ const practiceAreas: PracticeArea[] = [
 export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const mobileDropdownRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const location = useLocation();
 
@@ -38,15 +40,31 @@ export default function Navbar() {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
       }
+      
+      // We don't want to close the mobile dropdown when clicking inside the mobile menu
+      // So we only close it when clicking outside both the dropdown and mobile menu
+      if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target as Node)) {
+        setIsMobileDropdownOpen(false);
+      }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Simple function to close mobile menu
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
-    setIsDropdownOpen(false);
+  };
+
+  // Create a separate function for mobile dropdown menu item clicks
+  const handleMobileItemClick = () => {
+    setIsMobileMenuOpen(false);
+    setIsMobileDropdownOpen(false);
+  };
+
+  // Handle mobile dropdown toggle
+  const toggleMobileDropdown = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent event bubbling
+    setIsMobileDropdownOpen(!isMobileDropdownOpen);
   };
 
   return (
@@ -126,28 +144,37 @@ export default function Navbar() {
               </Link>
             ))}
 
-            {/* Mobile Practice Areas - Direct Links */}
-            <div className="px-2">
-              <div className="text-white hover:text-blue-300 mb-2">Practice Areas</div>
-              <div className="pl-4 space-y-2">
-                {practiceAreas.map((area) => (
-                  <div key={area.title}>
-                    {area.href ? (
-                      <Link
-                        to={area.href}
-                        className="block text-white hover:text-blue-300"
-                        onClick={closeMobileMenu}
-                      >
-                        {area.title}
-                      </Link>
-                    ) : (
-                      <span className="block text-white opacity-50 cursor-not-allowed">
-                        {area.title}
-                      </span>
-                    )}
-                  </div>
-                ))}
-              </div>
+            {/* Mobile Practice Areas */}
+            <div className="px-2" ref={mobileDropdownRef}>
+              <button
+                onClick={toggleMobileDropdown}
+                className="flex items-center text-white hover:text-blue-300 mb-2 cursor-pointer"
+              >
+                <span>Practice Areas</span>
+                <ChevronDown className={`h-4 w-4 ml-1 ${isMobileDropdownOpen ? 'transform rotate-180' : ''}`} />
+              </button>
+              
+              {isMobileDropdownOpen && (
+                <div className="pl-4 space-y-2">
+                  {practiceAreas.map((area) => (
+                    <div key={area.title}>
+                      {area.href ? (
+                        <Link
+                          to={area.href}
+                          className="block text-white hover:text-blue-300"
+                          onClick={handleMobileItemClick}
+                        >
+                          {area.title}
+                        </Link>
+                      ) : (
+                        <span className="block text-white opacity-50 cursor-not-allowed">
+                          {area.title}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}

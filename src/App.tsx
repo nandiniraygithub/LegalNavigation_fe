@@ -18,7 +18,7 @@ import AdminLayout from "./components/AdminLayout";
 import AdminDashboard from "./components/AdminDashboard";
 import CreatePost from "./components/CreatePost";
 import EditPost from "./components/EditPost";
-import ContactForm from "./components/ConatctForm"; // Import ContactForm
+import ContactForm from "./components/ConatctForm";
 import Trademarkpage from "./pages/Trademarkpage";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -44,6 +44,7 @@ function App() {
   const [showContactForm, setShowContactForm] = useState(false);
 
   const location = useLocation();
+  const path = location.pathname.toLowerCase(); // Normalize for case-insensitive comparison
 
   useEffect(() => {
     const hasAccepted = localStorage.getItem("disclaimerAccepted");
@@ -56,6 +57,16 @@ function App() {
     localStorage.setItem("disclaimerAccepted", "true");
     setShowDisclaimer(false);
   };
+
+  // Define routes where footer should be hidden
+  const hideFooterRoutes = [
+    "/post-blog",
+    "/practice/trademark",
+    "/practice/trademarkpage"
+  ];
+
+  const shouldHideFooter =
+    hideFooterRoutes.includes(path) || path.startsWith("/post/");
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -79,15 +90,11 @@ function App() {
                 }
               />
 
-              <Route
-                path="/practice/trademarkpage"
-                element={<Trademarkpage />}
-              />
-
-              <Route path="/PracticeAreas" element={<PracticeAreas />} />
+              <Route path="/practice/trademarkpage" element={<Trademarkpage />} />
+              <Route path="/practice/trademark" element={<Trademark />} />
+              <Route path="/practiceareas" element={<PracticeAreas />} />
               <Route path="/about" element={<About />} />
               <Route path="/post-blog" element={<BlogList />} />
-              <Route path="/practice/trademark" element={<Trademark />} />
               <Route path="/blogs" element={<BlogList />} />
               <Route path="/post/:id" element={<ViewPost />} />
               <Route path="/login" element={<Login />} />
@@ -108,10 +115,8 @@ function App() {
             </Routes>
           </main>
 
-          {/* Hide Footer on post/:id, post-blog, and trademark pages */}
-          {!location.pathname.startsWith("/post/") &&
-            location.pathname !== "/post-blog" &&
-            location.pathname !== "/practice/trademark" && <Footer />}
+          {/* Conditionally render Footer */}
+          {!shouldHideFooter && <Footer />}
         </>
       )}
     </div>
