@@ -67,7 +67,7 @@ const Updates = () => {
 
         <div className="text-center mt-12">
           <a
-            href="#"
+            href="/post-blog"
             className="inline-flex items-center px-6 py-3 border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white rounded-lg transition-colors duration-200"
           >
             View All Updates

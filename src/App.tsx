@@ -71,7 +71,6 @@ function App() {
                 element={
                   <>
                     <Hero setShowContactForm={setShowContactForm} />
-                    
                     <About />
                     <PracticeAreas />
                     <Updates />
@@ -79,10 +78,13 @@ function App() {
                   </>
                 }
               />
-              
-            <Route path="/practice/trademarkpage" element={<Trademarkpage />} />
 
-             <Route path="/PracticeAreas" element={<PracticeAreas />} />
+              <Route
+                path="/practice/trademarkpage"
+                element={<Trademarkpage />}
+              />
+
+              <Route path="/PracticeAreas" element={<PracticeAreas />} />
               <Route path="/about" element={<About />} />
               <Route path="/post-blog" element={<BlogList />} />
               <Route path="/practice/trademark" element={<Trademark />} />
@@ -105,7 +107,11 @@ function App() {
               </Route>
             </Routes>
           </main>
-          {location.pathname !== '/post-blog' && <Footer />}
+
+          {/* Hide Footer on post/:id, post-blog, and trademark pages */}
+          {!location.pathname.startsWith("/post/") &&
+            location.pathname !== "/post-blog" &&
+            location.pathname !== "/practice/trademark" && <Footer />}
         </>
       )}
     </div>

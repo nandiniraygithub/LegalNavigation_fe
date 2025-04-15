@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { supabase } from '../lib/supabase';
+import DOMPurify from "dompurify";
 
 interface Post {
   id: string;
@@ -25,7 +26,7 @@ export default function BlogList() {
           .order('created_at', { ascending: false });
 
         if (error) throw error;
-        setPosts(data || []);
+        setPosts(data ?? []);
       } catch (error) {
         console.error('Error fetching posts:', error);
       } finally {
@@ -65,9 +66,12 @@ export default function BlogList() {
                 <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
                   {post.title}
                 </h2>
-                <p className="text-gray-700 text-sm mb-4 line-clamp-3">
-                  {post.content}
-                </p>
+                <p
+                  className="text-gray-700 text-sm mb-4 line-clamp-3"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(post.content.slice(0, 150)),
+                  }}
+                />
               </div>
               <div className="flex items-center justify-between">
                 <p className="text-xs text-gray-500">
