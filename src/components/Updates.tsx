@@ -1,5 +1,6 @@
 import React from 'react';
 import { Calendar, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const updates = [
   {
@@ -53,26 +54,26 @@ const Updates = () => {
                 <p className="text-blue-700 mb-4">
                   {post.excerpt}
                 </p>
-                <a
-                  href="#"
+                <Link
+                  to="/post-blog" // Optional: change this to `/post/:id` if dynamic posts exist
                   className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200 font-medium"
                 >
                   Read More
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
+                </Link>
               </div>
             </article>
           ))}
         </div>
 
         <div className="text-center mt-12">
-          <a
-            href="/post-blog"
+          <Link
+            to="/post-blog"
             className="inline-flex items-center px-6 py-3 border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white rounded-lg transition-colors duration-200"
           >
             View All Updates
             <ArrowRight className="ml-2 h-4 w-4" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>
