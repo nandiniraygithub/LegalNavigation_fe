@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/Logodesign.png';
+import logo from '../assets/image.png';
 import {
   FaMapMarkerAlt, FaEnvelope, FaPhoneAlt,
   FaInstagram, FaWhatsapp, FaLinkedin,
@@ -8,7 +8,7 @@ import {
 
 const Footer: React.FC = () => {
   return (
-    <div className="bg-[#ffffff] text-black py-10 px-5 font-poppins">
+    <div className="bg-[#f5f3f3c5] text-black py-10 px-5 font-poppins">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         
         {/* Logo Section */}

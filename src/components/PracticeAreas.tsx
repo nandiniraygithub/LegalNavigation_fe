@@ -7,7 +7,7 @@ const practiceAreas = [
   {
     title: 'Trademark',
     description: 'Protection and registration of intellectual property rights',
-    href: '/practice/Trademark',
+    href: '/practice/trademark',
     available: true,
     icon: Scale,
   },
@@ -49,7 +49,6 @@ const practiceAreas = [
   },
 ];
 
-
 function PracticeAreas() {
   return (
     <section id="practice-areas" className="py-16 bg-white">
@@ -58,15 +57,13 @@ function PracticeAreas() {
           <h2 className="text-3xl font-bold text-blue-600 sm:text-4xl">Practice Areas</h2>
           <p className="mt-4 text-xl text-gray-600">Comprehensive legal expertise for your business needs</p>
         </div>
-        
+
         <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {practiceAreas.map((area, index) => {
             const IconComponent = area.icon;
-            return (
-              <div
-                key={index}
-                className="relative group bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300"
-              >
+
+            const cardContent = (
+              <div className="relative group bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-200 to-indigo-200 rounded-xl opacity-0 group-hover:opacity-100 transition duration-300 blur"></div>
                 <div className="relative bg-white p-6 rounded-xl">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
@@ -76,6 +73,14 @@ function PracticeAreas() {
                   <p className="text-gray-600">{area.description}</p>
                 </div>
               </div>
+            );
+
+            return area.available ? (
+              <Link to={area.href} key={index} className="block">
+                {cardContent}
+              </Link>
+            ) : (
+              <div key={index}>{cardContent}</div>
             );
           })}
         </div>

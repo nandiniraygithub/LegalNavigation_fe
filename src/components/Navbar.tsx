@@ -10,7 +10,8 @@ interface PracticeArea {
 
 const navItems = [
   { label: "Home", to: "/" },
-  { label: "About", to: "/about" },
+  { label: "About", to: "/About" },
+   {label:"service", to:"/practiceAreas"},
   { label: "Blog", to: "/post-blog" },
   { label: "Contact", to: "/contact" },
 ];

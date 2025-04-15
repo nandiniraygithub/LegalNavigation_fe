@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import DisclaimerModal from "./components/DisclaimerModal";
@@ -17,6 +18,8 @@ import AdminLayout from "./components/AdminLayout";
 import AdminDashboard from "./components/AdminDashboard";
 import CreatePost from "./components/CreatePost";
 import EditPost from "./components/EditPost";
+import ContactForm from "./components/ConatctForm"; // Import ContactForm
+import Trademarkpage from "./pages/Trademarkpage";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -38,7 +41,9 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 function App() {
   const [showDisclaimer, setShowDisclaimer] = useState(true);
-  const location = useLocation()
+  const [showContactForm, setShowContactForm] = useState(false);
+
+  const location = useLocation();
 
   useEffect(() => {
     const hasAccepted = localStorage.getItem("disclaimerAccepted");
@@ -65,7 +70,8 @@ function App() {
                 path="/"
                 element={
                   <>
-                    <Hero />
+                    <Hero setShowContactForm={setShowContactForm} />
+                    
                     <About />
                     <PracticeAreas />
                     <Updates />
@@ -73,6 +79,11 @@ function App() {
                   </>
                 }
               />
+              
+            <Route path="/practice/trademarkpage" element={<Trademarkpage />} />
+
+             <Route path="/PracticeAreas" element={<PracticeAreas />} />
+              <Route path="/about" element={<About />} />
               <Route path="/post-blog" element={<BlogList />} />
               <Route path="/practice/trademark" element={<Trademark />} />
               <Route path="/blogs" element={<BlogList />} />
