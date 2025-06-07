@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
           <p className="flex items-center gap-2 mt-2">
             <FaEnvelope />
             <a href="mailto:legalnavigtaion2024@gmail.com" className="text-blue-600 hover:underline">
-              legalnavigtaion2024@gmai.com
+              legalnavigtaion2024@gmail.com
             </a>
           </p>
           <p className="flex items-center gap-2 mt-2">
